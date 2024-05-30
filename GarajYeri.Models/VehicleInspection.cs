@@ -13,5 +13,7 @@ namespace GarajYeri.Models
         public double Odometer {  get; set; }
         public string? FilePath {  get; set; }
         public bool IsPassed { get; set; } = true;
+        public int VehicleId {  get; set; }
+        public virtual Vehicle Vehicle { get; set; }
     }
 }
