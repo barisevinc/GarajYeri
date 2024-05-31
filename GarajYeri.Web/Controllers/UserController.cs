@@ -20,6 +20,11 @@ namespace GarajYeri.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult GetAll()
+        {
+            return Json(new {data=_context.Users.ToList()});
+        }
         public IActionResult Login()
         {
             return View();
