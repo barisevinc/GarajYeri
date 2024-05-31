@@ -41,7 +41,7 @@ namespace GarajYeri.Web.Controllers
                 claims.Add(new Claim(ClaimTypes.Name, user.UserName));
                 claims.Add(new Claim(ClaimTypes.GivenName, user.FullName));
                 claims.Add(new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User"));
-                ClaimsIdentity identity=new ClaimsIdentity(claims);
+                ClaimsIdentity identity=new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -50,6 +50,11 @@ namespace GarajYeri.Web.Controllers
                 return RedirectToAction("Index", "Vehicle"); 
             }
             return View();
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
         }
 
     }
