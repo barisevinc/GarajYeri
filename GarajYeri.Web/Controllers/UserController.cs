@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace GarajYeri.Web.Controllers
 {
@@ -21,10 +22,51 @@ namespace GarajYeri.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Add(AppUser appUser)
+        {
+            _context.Users.Add(appUser);
+            _context.SaveChanges();
+            return Ok(appUser);
+        }
+
+        [HttpPost]
+        public IActionResult HardDelete(AppUser appUser)
+        {
+            _context.Users.Remove(appUser);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
+        {
+           AppUser appUser= _context.Users.Find(id);
+            appUser.IsDeleted= true;
+            _context.Users.Update(appUser);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult Update(AppUser appUser){
+
+            _context.Users.Update(appUser);
+            _context.SaveChanges();
+            return Ok(appUser);
+        }
+
+        [HttpPost]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_context.Users.Find(id));
+        }
+
         public IActionResult GetAll()
         {
-            return Json(new {data=_context.Users.ToList()});
+            return Json(new {data=_context.Users.Where(u=>!u.IsDeleted).ToList()});
         }
+
         public IActionResult Login()
         {
             return View();
