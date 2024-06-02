@@ -50,7 +50,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">
                     Kapat
                 </button>
                 <button type="button" id="btnSave" class="btn btn-primary">Kaydet</button>
@@ -117,7 +117,7 @@
                         data: 'isAdmin', title: 'isAdmin', render:(data)=> {
                             
 
-                            return data ? `<i class="btn uil-check fs-6 btn-success"></i>` : `<i class="btn uil-times fs-6 btn-danger"></i>`
+                            return data ? `<i title="ADMIN" class="btn uil-check fs-6 btn-success"></i>` : `<i title="USER" class="btn uil-times fs-6 btn-danger"></i>`
                             // if (data) {
                             //     return `<i class="btn uil-check fs-6 btn-success"></i>`;
                             // }
@@ -129,7 +129,7 @@
                     },
                     {
                         data: 'id', title: 'İşlemler', render:  (data, type, row) => {
-                            return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateUser(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
+                            return `<a title="SİL" onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a title="DÜZENLE" onclick="updateUser(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
                         }
                     }
                 ]
