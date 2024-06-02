@@ -72,6 +72,13 @@ namespace GarajYeri.Web.Controllers
             return Ok(vehicleType);
 
         }
-       
+
+        [HttpPost]
+        public IActionResult Add(VehicleType vehicleType)
+        {
+            _context.VehicleTypes.Add(vehicleType);
+            _context.SaveChanges();
+            return Ok(vehicleType);
+        }
     }
 }
