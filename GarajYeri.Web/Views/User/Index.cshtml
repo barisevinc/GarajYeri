@@ -136,28 +136,49 @@
             });
         });
 
-
         function deleteUser(userId, button) {
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Evet', cancelButtonText: 'Hayır'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    $.ajax({
+                        url: '/User/SoftDelete',
+                        type: "POST",
+                        data: { id: userId },
+                        success: () => {
 
-            if (confirm("Silmek istediginizden emin misiniz ?")) {
+                            //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında silme işlemi.
+                            let satir = $(button).parent().parent();
+                            DataTable.row(satir).remove().draw();
 
-                $.ajax({
-                    url: '/User/SoftDelete',
-                    type: 'POST',
-                    data: {
-                        id: userId
-                    },
-                    success:  ()=> {
-                        //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında silme işlemi.
-                        let satir = $(button).parent().parent();
-                        DataTable.row(satir).remove().draw();
+                        },
 
-                    }
-                });
-            }
-
-
+                    });
+                }
+            });
         }
+
+        // function deleteUser(userId, button) {
+
+        //     if (confirm("Silmek istediginizden emin misiniz ?")) {
+
+        //         $.ajax({
+        //             url: '/User/SoftDelete',
+        //             type: 'POST',
+        //             data: {
+        //                 id: userId
+        //             },
+        //             success:  ()=> {
+                        
+        //                 let satir = $(button).parent().parent();
+        //                 DataTable.row(satir).remove().draw();
+
+        //             }
+        //         });
+        //     }
+
+
+        // }
 
         function updateUser(userId, button) {
 
