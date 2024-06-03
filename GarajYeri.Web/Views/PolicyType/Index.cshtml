@@ -102,7 +102,7 @@
                         data: { id: policyTypeId },
                         success: () => {
                             let satir = $(button).parent().parent();
-                            DataTable.row(satir).remove().draw();
+                            DataTable.row(satir).remove().draw(false);
                             
                         },
                         
@@ -139,7 +139,7 @@
                             },
                             success: () => {
                                 let satir = $(button).parent().parent();
-                                DataTable.row(satir).data(res).draw();
+                                DataTable.row(satir).data(res).draw(false);
                                 $("#modalAdd").modal("hide");
                             }
                         });

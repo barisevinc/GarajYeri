@@ -73,7 +73,7 @@
                 $("#btnSave").text("Kaydet").off().click(() => {
 
                     $.ajax({
-                        url: '/vehicleType/Add',
+                        url: '/VehicleType/Add',
                         type: 'POST',
                         data: {
                             vehicleType: {
@@ -122,7 +122,7 @@
                     $("#modalTitle").text('Araç Tipi Güncelleme');
                     $("#txtName").val(res.name);
 
-                    $("#btnSave").text("Güncelle").off().click(() => {
+                    $("#btnSave").off().text("Güncelle").click(() => {
 
                         res.name = $("#txtName").val();
 

@@ -1,6 +1,7 @@
 ﻿using GarajYeri.Data;
 using GarajYeri.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GarajYeri.Web.Controllers
 {
@@ -20,9 +21,13 @@ namespace GarajYeri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _context.VehicleProcesses.Where(vp => vp.IsDeleted == false) });
-            
+            var vehicleProcesses = _context.VehicleProcesses
+                                           .Include(vp => vp.VehicleProcessType)
+                                           .Include(vp => vp.Vehicle)
+                                           .Where(vp => !vp.IsDeleted)
+                                           .ToList();
 
+            return Json(new { data = vehicleProcesses });
         }
 
         [HttpPost]
