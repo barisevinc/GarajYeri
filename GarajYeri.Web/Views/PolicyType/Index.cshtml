@@ -53,10 +53,10 @@
             DataTable = $("#tblPolicyTypes").DataTable({
                 ajax:'/PolicyType/GetAll',
                 columns:[
-                    {data:"id", title:'Id'},
-                    { data: 'name', title: 'Poliçe Tip Adı' },
+                    {data:'id', title:'Id'},
+                    { data:'name', title: 'Poliçe Tip Adı' },
                     {
-                        data: "id", title: 'İşlemler', render: (data) => {
+                        data: 'id', title: 'İşlemler', render: (data) => {
                             return `<a title="SİL" onclick="deletePolicyType(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a title="DÜZENLE" onclick="updatePolicyType(${data}, this)" class="btn uil-pen fs-6 btn-success"></a>`
                         }
                     }
@@ -93,7 +93,7 @@
         });
 
         function deletePolicyType(policyTypeId, button) {
-            Swal.fire({ title: 'Silmek istediğinize emin misiniz?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Evet', cancelButtonText: 'Hayır'
+            Swal.fire({ title: 'Silmek istediğinize emin misiniz?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Evet', cancelButtonText: 'Vazgeç'
             }).then((res) => {
                 if (res.isConfirmed) {
                     $.ajax({

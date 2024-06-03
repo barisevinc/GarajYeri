@@ -18,10 +18,10 @@ namespace GarajYeri.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new { data = _context.VehicleTypes.Where(vt=>vt.IsDeleted==false).ToList()});
+            return Json(new { data = _context.VehicleTypes.Where(vt=>vt.IsDeleted==false)});
         }
 
         [HttpPost]
