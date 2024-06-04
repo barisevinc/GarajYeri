@@ -2,6 +2,7 @@
 using GarajYeri.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace GarajYeri.Web.Controllers
 {
@@ -21,19 +22,30 @@ namespace GarajYeri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var vehicleProcesses = _context.VehicleProcesses
-                                           .Include(vp => vp.VehicleProcessType)
-                                           .Include(vp => vp.Vehicle)
-                                           .Where(vp => !vp.IsDeleted)
-                                           .ToList();
-
+            var vehicleProcesses = _context.VehicleProcesses.Where(vp => vp.IsDeleted ==false).Select(vp => new
+                {   vp.Id,
+                    vp.Description,
+                    vp.Odemeter,
+                    vp.Price,
+                    VehicleProcessTypeName = vp.VehicleProcessType.Name,
+                    VehicleName = vp.Vehicle.Name
+                }).ToList();
             return Json(new { data = vehicleProcesses });
         }
+
+        
 
         [HttpPost]
         public IActionResult GetById(int id)
         {
-            return Ok(_context.VehicleProcesses.Find(id));
+            return Json(_context.VehicleProcesses.Where(vp=>vp.Id==id).Select(vp=>new VehicleProcess
+            {
+                Description=vp.Description,
+                Odemeter=vp.Odemeter,
+                Price=vp.Price,
+                VehicleProcessType=vp.VehicleProcessType,
+                Vehicle=vp.Vehicle,
+            }).First());
 
         }
 

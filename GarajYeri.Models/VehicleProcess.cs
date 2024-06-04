@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GarajYeri.Models
@@ -14,6 +15,7 @@ namespace GarajYeri.Models
         public int VehicleProcessTypeId {  get; set; }
         public virtual VehicleProcessType VehicleProcessType { get; set; }
         public int VehicleId {  get; set; }
+        [JsonIgnore]
         public virtual Vehicle Vehicle { get; set; }
     }
 }
