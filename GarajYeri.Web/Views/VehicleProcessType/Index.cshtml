@@ -89,15 +89,22 @@
     });
 
     function deleteVehicleProcessType (vehicleProcessTypeId, button) {
-        $.ajax({
-            url:'/VehicleProcessType/SoftDelete',
-            type:'POST',
-            data: {
-               id:vehicleProcessTypeId
-            },
-            success: () => {
-                let satir = $(button).parent().parent();
-                DataTable.row(satir).remove().draw();
+        swal.fire({
+            title: 'Silmek İstedğinize emin misiniz ?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Evet', cancelButtonText: 'Vazgeç'
+        }).then((res) => {
+            if (res.isConfirmed) {
+                    $.ajax({
+                        url: '/VehicleProcessType/SoftDelete',
+                        type: 'POST',
+                        data: {
+                            id: vehicleProcessTypeId
+                        },
+                        success: () => {
+                            let satir = $(button).parent().parent();
+                            DataTable.row(satir).remove().draw();
+                        }
+                    });
+
             }
         });
 
@@ -119,7 +126,7 @@
                 $("#btnSave").off().text("Güncelle").click(() => {
                     res.name = $("#txtName").val();
                     $.ajax({
-                        url: '/VehicleProcessType/Add',
+                        url: '/VehicleProcessType/Update',
                         type: 'POST',
                         data: {
                             name: res.name
