@@ -18,6 +18,12 @@ namespace GarajYeri.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_context.VehicleProcessTypes.Find(id));
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
