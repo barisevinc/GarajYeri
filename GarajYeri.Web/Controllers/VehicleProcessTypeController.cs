@@ -27,11 +27,12 @@ namespace GarajYeri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Json(new {data=_context.VehicleProcessTypes.Where(vpt=>vpt.IsDeleted==false)});
-
+            var vehicleProcessTypes = _context.VehicleProcessTypes.Where(vpt => vpt.IsDeleted == false).Select(vpt => new { vpt.Name }).ToList();
+            return Json(new { data = vehicleProcessTypes });
         }
 
-       
+
+
 
         [HttpPost]
         public IActionResult HardDelete(VehicleProcessType vehicleProcessType)

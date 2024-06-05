@@ -92,31 +92,33 @@
 
             $("#btnAdd").off().click(() => {
                 $("#modalAdd").modal("show");
-                $("#modal .form-control").val('');
-                $("modalTitle").text("Yeni Araç İşlemi Ekleme");
+                $("#modalAdd .form-control").val('');
+                $("#modalTitle").text("Yeni Araç İşlemi Ekleme");
                 fillVehicles();
                 fillVehicleProcessType();
 
-                $("btnSave").off().text('Kaydet').click(()=>{
+                $("#btnSave").off().text('Kaydet').click(() => {
+                    let process = {
+                        vehicleId: $("#ddlVehicle").val(),
+                        vehicleProcessTypeName: $("#ddlProcessType").val(),
+                        price: $("#txtPrice").val(),
+                        odometer: $("#txtOdometer").val(),
+                        description: $("#txtDescription").val()
+                    }
                     $.ajax({
-                        url:'/VehicleProcess/Add',
-                        type:'POST',
-                        data: {
-                            vehicleProcess: {
-                                vehicleId: $("#ddlVehicle").val(),
-                                processId: $("#ddlProcessType").val(),
-                                price:$("#txtPrice").val(),
-                                odemeter:$("#txtOdemeter").val(),
-                                description:$("#txtDescription").val()
-
-                            }
-                        },
+                        url: '/VehicleProcess/Add',
+                        type: 'POST',
+                        data: { vehicleProcess:process },
                         success: (res) => {
                             $("#modalAdd").modal("hide");
                             DataTable.row.add(res).draw();
+                        },
+                        error: (xhr, status, error) => {
+                            alert(`Error: ${xhr.responseText}`);
                         }
                     });
                 });
+
                 
             })
 
@@ -190,7 +192,7 @@
 
                         res.description = $("#txtDescription").val();
                         res.price = $("#txtPrice").val();
-                        res.odemeter = $("txtOdemeter").val();
+                        res.odemeter = $("#txtOdemeter").val();
                         res.processTypeId = $("#ddlProcessType").val();
                         res.vehicleId = $("#ddlVehicle").val();
 

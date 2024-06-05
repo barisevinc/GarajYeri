@@ -22,29 +22,30 @@ namespace GarajYeri.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var vehicleProcesses = _context.VehicleProcesses.Where(vp => vp.IsDeleted ==false).Select(vp => new
-                {   vp.Id,
-                    vp.Description,
-                    vp.Odemeter,
-                    vp.Price,
-                    VehicleProcessTypeName = vp.VehicleProcessType.Name,
-                    VehicleName = vp.Vehicle.Name
-                }).ToList();
+            var vehicleProcesses = _context.VehicleProcesses.Where(vp => vp.IsDeleted == false).Select(vp => new
+            {
+                vp.Id,
+                vp.Description,
+                vp.Odemeter,
+                vp.Price,
+                VehicleProcessTypeName = vp.VehicleProcessType.Name,
+                VehicleName = vp.Vehicle.Name
+            }).ToList();
             return Json(new { data = vehicleProcesses });
         }
 
-        
+
 
         [HttpPost]
         public IActionResult GetById(int id)
         {
-            return Json(_context.VehicleProcesses.Where(vp=>vp.Id==id).Select(vp=>new VehicleProcess
+            return Json(_context.VehicleProcesses.Where(vp => vp.Id == id).Select(vp => new VehicleProcess
             {
-                Description=vp.Description,
-                Odemeter=vp.Odemeter,
-                Price=vp.Price,
-                VehicleProcessType=vp.VehicleProcessType,
-                Vehicle=vp.Vehicle,
+                Description = vp.Description,
+                Odemeter = vp.Odemeter,
+                Price = vp.Price,
+                VehicleProcessType = vp.VehicleProcessType,
+                Vehicle = vp.Vehicle,
             }).First());
 
         }
@@ -60,9 +61,9 @@ namespace GarajYeri.Web.Controllers
         [HttpPost]
         public IActionResult SoftDelete(int id)
         {
-            var vehicleProcess=_context.VehicleProcesses.Find(id);
+            var vehicleProcess = _context.VehicleProcesses.Find(id);
 
-            if(vehicleProcess != null)
+            if (vehicleProcess != null)
             {
                 vehicleProcess.IsDeleted = true;
                 _context.VehicleProcesses.Update(vehicleProcess);
@@ -80,23 +81,25 @@ namespace GarajYeri.Web.Controllers
             {
                 return BadRequest("Gönderilen ID geçersizdir");
             }
-            
+
         }
 
         [HttpPost]
         public IActionResult Update(VehicleProcess vehicleProcess)
         {
             _context.VehicleProcesses.Update(vehicleProcess);
-            _context.SaveChanges(); 
-            return Ok(vehicleProcess);
-        }
-
-        [HttpPost]
-        public IActionResult Add(VehicleProcess vehicleProcess)
-        {
-            _context.VehicleProcesses.Add(vehicleProcess);
             _context.SaveChanges();
             return Ok(vehicleProcess);
         }
+        [HttpPost]
+        public IActionResult Add(VehicleProcess vehicleProcess)
+        {
+
+            _context.VehicleProcesses.Add(vehicleProcess);
+            _context.SaveChanges();
+
+            return Ok(vehicleProcess);
+        }
+
     }
 }
