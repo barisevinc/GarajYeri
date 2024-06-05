@@ -148,6 +148,28 @@
 
         };
 
+        
+        function deleteVehicleProcess(vehicleProcessId, button) {
+            swal.fire({
+                title: 'Silmek İstedğinize emin misiniz ?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Evet', cancelButtonText: 'Vazgeç'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    $.ajax({
+                        url: '/VehicleProcess/SoftDelete',
+                        type: 'POST',
+                        data: { id: vehicleProcessId },
+                        success: () => {
+                            let satir = $(button).parent().parent();
+                            DataTable.row(satir).remove().draw(false);
+
+                        }
+                    });
+
+                }
+            });
+
+        };
+
         function updateVehicleProcess(vehicleProcessId, button){
             $.ajax({
                 url:'/VehicleProcess/GetById',
@@ -155,10 +177,42 @@
                 data: {id:vehicleProcessId},
                 success: (res) => {
                     $("#modalAdd").modal("show");
-                    $("modalTitle").text("Araç İşlem Düzenleme");
-                    $("txtDescription").val(res.description);
+                    fillVehicles();
+                    fillVehicleProcessType();
+                    $("#modalTitle").text("Araç İşlemi Düzenleme");
+                    $("#txtDescription").val(res.description);
                     $("#txtPrice").val(res.price);
                     $("#txtOdemeter").val(res.odemeter);
+                    $("#ddlVehicle").val(res.vehicleId);
+                    $("#ddlProcessType").val(res.processTypeId);
+
+                    $("#btnSave").off().text("Güncelle").click(() => {
+
+                        res.description = $("#txtDescription").val();
+                        res.price = $("#txtPrice").val();
+                        res.odemeter = $("txtOdemeter").val();
+                        res.processTypeId = $("#ddlProcessType").val();
+                        res.vehicleId = $("#ddlVehicle").val();
+
+                        $.ajax({
+                            url: '/VehicleProcess/Update',
+                            type: 'POST',
+                            data: {
+                                description: res.description,
+                                price: res.price,
+                                odemeter: res.odemeter,
+                                processTypeId: res.processTypeId,
+                                vehicleId: res.vehicleId
+
+                            },
+                            success: () => {
+                                let satir = $(button).parent().parent();
+                                DataTable.row(satir).data(res).draw();
+                                $("#modalAdd").modal("hide");
+                            }
+                        });
+
+                    });
 
                 }
             });
